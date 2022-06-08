@@ -20,7 +20,13 @@ class CategoriesTableSeeder extends Seeder
         $faker = \Faker\Factory::create();
         for ($i = 0; $i < 3; $i++) {
             Category::create([
-                'name' => $faker->word // Fictional name by the faker
+                'type' => $faker->randomElement(
+                    array(
+                        'dogs',
+                        'cats',
+                        'others'
+                    )
+                )
             ]);
         }
     }

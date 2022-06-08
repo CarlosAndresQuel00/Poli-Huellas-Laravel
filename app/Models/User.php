@@ -19,24 +19,25 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name',
+        'last_name',
+        'cellphone',
+        'address',
+        'image',
+        'date_of_birth',
         'email',
         'password',
     ];
     // With auth
     const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
     const ROLE_ADMIN = 'ROLE_ADMIN';
-    const ROLE_USER = 'ROLE_USER';
-    /*
-    private const ROLES_HIERARCHY = [
-        self::ROLE_SUPERADMIN => [self::ROLE_ADMIN, self::ROLE_USER],
-        self::ROLE_ADMIN => [self::ROLE_USER],
-        self::ROLE_USER => []
-    ];
-    */
+    const ROLE_PROTECTOR = 'ROLE_PROTECTOR';
+    const ROLE_ADOPTER = 'ROLE_ADOPTER';
+
     private const ROLES_HIERARCHY = [
         self::ROLE_SUPERADMIN => [self::ROLE_ADMIN],
-        self::ROLE_ADMIN => [self::ROLE_USER],
-        self::ROLE_USER => []
+        self::ROLE_ADMIN => [self::ROLE_PROTECTOR, self::ROLE_ADOPTER],
+        self::ROLE_PROTECTOR => [],
+        self::ROLE_ADOPTER => []
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -81,12 +82,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Category::class)->as('subscriptions')->withTimestamps(); // Belong to several categories
     }
-    /*
-    public function isGranted($role)
-    {
-        return $role === $this->role || in_array($role, self::ROLES_HIERARCHY[$this->role]);
-    }
-    */
+
     public function isGranted($role)
     {
         if ($role === $this->role) {

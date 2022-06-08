@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Admin extends Model
+class Adopter extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'identity_card' ];
+    protected $fillable = [ 'company', 'short_bio' ];
     public $timestamps = false;
 
     public function user()

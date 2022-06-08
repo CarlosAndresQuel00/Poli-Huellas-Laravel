@@ -16,6 +16,9 @@ class AddImageColumnArticle extends Migration
         Schema::table('articls', function (Blueprint $table) {
             $table->string('image');
         });
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('image');
+        });
     }
 
     /**
@@ -26,6 +29,9 @@ class AddImageColumnArticle extends Migration
     public function down()
     {
         Schema::table('articls', function (Blueprint $table) {
+            $table->dropColumn('image');
+        });
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('image');
         });
     }

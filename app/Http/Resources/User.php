@@ -25,6 +25,11 @@ class User extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'last_name' => $this->last_name,
+            'cellphone' => $this->cellphone,
+            'address' => $this->address,
+            'image' => $this->image,
+            'date_of_birth' => $this->date_of_birth,
             'email' => $this->email,
             $this->merge($this->userable),
             'created_at' => $this->created_at,

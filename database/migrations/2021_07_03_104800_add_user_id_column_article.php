@@ -15,7 +15,7 @@ class AddUserIdColumnArticle extends Migration
     {
         // Create a new field in table Articles
         Schema::table('articls', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained()->onDelete('restrict');
+            $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
             //$table->unsignedBigInteger('user_id'); // New field "user_id"
             //$table->foreign('user_id')->references('id')->on('users')->onDelete('restrict'); // Set the previous field like a foreign key
         });

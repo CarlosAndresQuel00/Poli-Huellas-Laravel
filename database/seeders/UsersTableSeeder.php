@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\Protector;
 use App\Models\User;
-use App\Models\Writer;
+use App\Models\Adopter;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,36 +20,62 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         //Code that generate fictitious data and save database
-        // Vaciar la tabla.
+        // Empty table.
         User::truncate();
         $faker = \Faker\Factory::create();
-        // Crear la misma clave para todos los usuarios
-        // conviene hacerlo antes del for para que el seeder
-        // no se vuelva lento.
-        $password = Hash::make('123123');
-        $admin = Admin::create(['credential_number' => '09876547654']);
+        // Create the same password for all users
+        $password = Hash::make('12312312');
+        $admin = Admin::create(['identity_card' => '1754753668']);
         // Create first user admin
         $admin->user()->create([
-            'name' => 'Administrador',
+            'name' => 'Admin',
+            'last_name' => 'Main',
+            'cellphone' => '0988020103',
+            'address' => 'Fcs. de Quezada y Diego de Palomino',
+            'image' => $faker->imageUrl(600, 500, null, false),
+            'date_of_birth' => $faker->date($format = 'd-m-Y', $max = 'now'),
             'email' => 'admin@prueba.com',
             'password' => $password,
             'role' => 'ROLE_ADMIN'
         ]);
-        // Generar algunos usuarios para nuestra aplicacion
+        // Generate some users for app
         for ($i = 0; $i < 10; $i++) {
-            $writer = Writer::create([
-                'editorial' => $faker->company,
+            $protector = Protector::create([
+                'company' => $faker->company,
                 'short_bio' => $faker->paragraph
             ]);
 
-            $writer->user()->create([          // Instance
-                'name' => $faker->name,
+            $protector->user()->create([          // Instance
+                'name' => $faker->firstName,
+                'last_name' => $faker->lastName,
+                'cellphone' => $faker->phoneNumber,
+                'address' => $faker->address,
+                'image' => $faker->imageUrl(400, 300, null, false),
+                'date_of_birth' => $faker->date('d-m-Y', 'now'),
                 'email' => $faker->email,
                 'password' => $password,
+                'role' => 'ROLE_PROTECTOR'
+            ]);
+
+            $adopter = Adopter::create([
+                'company' => $faker->company,
+                'short_bio' => $faker->paragraph
+            ]);
+
+            $adopter->user()->create([          // Instance
+                'name' => $faker->firstName,
+                'last_name' => $faker->lastName,
+                'cellphone' => $faker->phoneNumber,
+                'address' => $faker->address,
+                'image' => $faker->imageUrl(400, 300, null, false),
+                'date_of_birth' => $faker->date('d-m-Y', 'now'),
+                'email' => $faker->email,
+                'password' => $password,
+                'role' => 'ROLE_ADOPTER'
             ]);
 
             // User subscribe to many categories
-            $writer->user->categories()->saveMany(      // Use that instance and assign the prop categories
+            $adopter->user->categories()->saveMany(      // Use that instance and assign the prop categories
                 $faker->randomElements(   // Array with elements randoms
                     array(
                         // Choice of three randomly

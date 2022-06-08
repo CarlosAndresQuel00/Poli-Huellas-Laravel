@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['type'];
     public function users()
     {
         return $this->belongsToMany(User::class)->as('subscriptions')->withTimestamps();

@@ -40,7 +40,7 @@ class ArticleTableSeeder extends Seeder
         $users = User::all(); // Get all users
         foreach ($users as $user) {
             // simular un iniciamossesión con este usuario
-            JWTAuth::attempt(['email' => $user->email, 'password' => '123123']);
+            JWTAuth::attempt(['email' => $user->email, 'password' => '12312312']);
             // Y ahora con este usuario creamos algunos articulos
             $num_articles = 5; // Create 5 items foreach
             for ($j = 0; $j < $num_articles; $j++) {

@@ -16,7 +16,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('type');
             $table->timestamps();
         });
         Schema::create('category_user', function (Blueprint $table) {
@@ -40,7 +40,7 @@ class CreateCategoriesTable extends Migration
         Schema::dropIfExists('category_user');
         Schema::dropIfExists('categories');
         Schema::table('articls', function (Blueprint $table) {
-            $table->dropForeign('category_id');
+            $table->dropForeign(['category_id']);
         });
         Schema::enableForeignKeyConstraints();
     }

@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Writer extends Model
+class Protector extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'editorial', 'short_bio' ];
+    protected $fillable = [ 'company', 'short_bio' ];
     public $timestamps = false;
 
     public function user()
