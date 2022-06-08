@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\NewComment;
-use App\Models\Articl;
+use App\Models\Pet;
 use App\Models\Comment;
 use App\Http\Resources\Comment as CommentResource;
 use Illuminate\Http\Request;
@@ -12,21 +12,21 @@ use Illuminate\Support\Facades\Mail;
 class CommentController extends Controller
 {
     /**
-     * @param Articl $article
+     * @param Pet $article
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Articl $article)
+    public function index(Pet $article)
     {
         $comment = $article->comments;
         return response()->json(CommentResource::collection($comment), 200);
     }
 
     /**
-     * @param Articl $article
+     * @param Pet $article
      * @param Comment $comment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Articl $article, Comment $comment)
+    public function show(Pet $article, Comment $comment)
     {
         $comments = $article->comments()->where('id', $comment->id)->firstOrFail();
         return response()->json(new CommentResource($comments), 200);
@@ -34,11 +34,11 @@ class CommentController extends Controller
 
     /**
      * @param Request $request
-     * @param Articl $articl
+     * @param Pet $articl
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, Articl $article)
+    public function store(Request $request, Pet $article)
     {
         $request->validate([
             'text' => 'required|string'

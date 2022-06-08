@@ -68,9 +68,9 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function articls()
+    public function pets()
     {
-        return $this->hasMany(Articl::class); // One user has many articles
+        return $this->hasMany(Pet::class); // One user has many pets
     }
 
     public function comments()

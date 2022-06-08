@@ -33,7 +33,7 @@ class UsersTableSeeder extends Seeder
             'cellphone' => '0988020103',
             'address' => 'Fcs. de Quezada y Diego de Palomino',
             'image' => $faker->imageUrl(600, 500, null, false),
-            'date_of_birth' => $faker->date($format = 'd-m-Y', $max = 'now'),
+            'date_of_birth' => $faker->date(),
             'email' => 'admin@prueba.com',
             'password' => $password,
             'role' => 'ROLE_ADMIN'
@@ -41,7 +41,7 @@ class UsersTableSeeder extends Seeder
         // Generate some users for app
         for ($i = 0; $i < 10; $i++) {
             $protector = Protector::create([
-                'company' => $faker->company,
+                'company' => $faker->jobTitle,
                 'short_bio' => $faker->paragraph
             ]);
 
@@ -51,14 +51,14 @@ class UsersTableSeeder extends Seeder
                 'cellphone' => $faker->phoneNumber,
                 'address' => $faker->address,
                 'image' => $faker->imageUrl(400, 300, null, false),
-                'date_of_birth' => $faker->date('d-m-Y', 'now'),
+                'date_of_birth' => $faker->date(),
                 'email' => $faker->email,
                 'password' => $password,
                 'role' => 'ROLE_PROTECTOR'
             ]);
 
             $adopter = Adopter::create([
-                'company' => $faker->company,
+                'company' => $faker->jobTitle,
                 'short_bio' => $faker->paragraph
             ]);
 
@@ -68,7 +68,7 @@ class UsersTableSeeder extends Seeder
                 'cellphone' => $faker->phoneNumber,
                 'address' => $faker->address,
                 'image' => $faker->imageUrl(400, 300, null, false),
-                'date_of_birth' => $faker->date('d-m-Y', 'now'),
+                'date_of_birth' => $faker->date(),
                 'email' => $faker->email,
                 'password' => $password,
                 'role' => 'ROLE_ADOPTER'

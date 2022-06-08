@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Articl;
+use App\Models\Pet;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class ArticleTableSeeder extends Seeder
+class PetTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,23 +16,8 @@ class ArticleTableSeeder extends Seeder
      */
     public function run()
     {
-        /*
-        //Code that generate fictitious data and save database
-        // Vaciar la tabla.
-        Articl::truncate();
-        // Create instance of faker
-        $faker = \Faker\Factory::create();
-
-        // Crear 50 artículos ficticios en la tabla
-        for ($i = 0; $i < 50; $i++) {
-            Articl::create([
-                'title' => $faker->sentence,
-                'body' => $faker->paragraph,
-            ]);
-        }
-        */
         // Vaciar la tabla articles.
-        Articl::truncate();
+        Pet::truncate();
         $faker = \Faker\Factory::create();
         // Obtenemos la lista de todos los usuarios creados e
         // iteramos sobre cada uno y simulamos un inicio de
@@ -41,12 +26,16 @@ class ArticleTableSeeder extends Seeder
         foreach ($users as $user) {
             // simular un iniciamossesión con este usuario
             JWTAuth::attempt(['email' => $user->email, 'password' => '12312312']);
-            // Y ahora con este usuario creamos algunos articulos
-            $num_articles = 5; // Create 5 items foreach
-            for ($j = 0; $j < $num_articles; $j++) {
-                Articl::create([
-                    'title' => $faker->sentence,
-                    'body' => $faker->paragraph,
+            // Y ahora con este usuario creamos algunas mascotas
+            $num_pets = 5; // Create 5 items foreach
+            for ($j = 0; $j < $num_pets; $j++) {
+                Pet::create([
+                    'name' => $faker->name,
+                    'gender' => $faker->randomElement(['Macho', 'Hembra']),
+                    'type' => $faker->randomElement(['Perro', 'Gato', 'Otros']),
+                    'size' => $faker->randomElement(['Pequeño', 'Mediano', 'Grande']),
+                    'description' => $faker->paragraph,
+                    'date_of_birth' => $faker->date(),
                     'category_id' => $faker->numberBetween(1, 3), // Set the category to the that belong that article
                     'image' => $faker->imageUrl(400, 300, null, false)
                 ]);

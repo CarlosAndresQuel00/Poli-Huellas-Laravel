@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ArticlController;
+use App\Http\Controllers\PetController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +31,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Public routes
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'authenticate']);
-Route::get('articles', [ArticlController::class, 'index']);
+Route::get('pets', [PetController::class, 'index']);
 Route::get('categories', [CategoryController::class, 'index']);
 
 Route::post('/forgot-password', function (Request $request) {
@@ -78,16 +78,16 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('logout', [UserController::class, 'logout']);
 
     // Articles
-    Route::get('articles/{article}', [ArticlController::class, 'show']);
-    Route::get('articles/{article}/image', [ArticlController::class, 'image']);
-    Route::post('articles', [ArticlController::class, 'store']);
-    Route::put('articles/{article}',  [ArticlController::class, 'update']);
-    Route::delete('articles/{article}', [ArticlController::class, 'delete']);
+    Route::get('pets/{pet}', [PetController::class, 'show']);
+    Route::get('pets/{pet}/image', [PetController::class, 'image']);
+    Route::post('pets', [PetController::class, 'store']);
+    Route::put('pets/{pet}',  [PetController::class, 'update']);
+    Route::delete('pets/{pet}', [PetController::class, 'delete']);
 
     // Comments
-    Route::get('articles/{article}/comments', [CommentController::class, 'index']);
-    Route::get('articles/{article}/comments/{comment}', [CommentController::class, 'show']);
-    Route::post('articles/{article}/comments', [CommentController::class, 'store']);
-    Route::put('articles/{article}/comments/{comment}',  [CommentController::class, 'update']);
-    Route::delete('articles/{article}/comments/{comment}', [CommentController::class, 'delete']);
+    Route::get('pets/{pet}/comments', [CommentController::class, 'index']);
+    Route::get('pets/{pet}/comments/{comment}', [CommentController::class, 'show']);
+    Route::post('pets/{pet}/comments', [CommentController::class, 'store']);
+    Route::put('pets/{pet}/comments/{comment}',  [CommentController::class, 'update']);
+    Route::delete('pets/{pet}/comments/{comment}', [CommentController::class, 'delete']);
 });

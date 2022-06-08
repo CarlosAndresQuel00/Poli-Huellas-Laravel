@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddImageColumnArticle extends Migration
+class AddImageColumnPet extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddImageColumnArticle extends Migration
      */
     public function up()
     {
-        Schema::table('articls', function (Blueprint $table) {
+        Schema::table('pets', function (Blueprint $table) {
             $table->string('image');
         });
         Schema::table('users', function (Blueprint $table) {
@@ -28,7 +28,7 @@ class AddImageColumnArticle extends Migration
      */
     public function down()
     {
-        Schema::table('articls', function (Blueprint $table) {
+        Schema::table('pets', function (Blueprint $table) {
             $table->dropColumn('image');
         });
         Schema::table('users', function (Blueprint $table) {

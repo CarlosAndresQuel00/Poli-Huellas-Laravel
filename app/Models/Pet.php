@@ -6,15 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Articl extends Model
+class Pet extends Model
 {
-    protected $fillable = ["title", "body", "category_id", "image"];
+    protected $fillable = [
+        'name',
+        'gender',
+        'type',
+        'size',
+        'description',
+        'date_of_birth',
+        'category_id',
+        'image'
+    ];
     public static function boot()
     {
         parent::boot();
-        static::creating(function ($articl) {
+        static::creating(function ($pet) {
             // Before saving, first extract the "id" and "lo setea"
-            $articl->user_id = Auth::id(); // Assign to the property "user_id" the value that contain the "id" of the user that are working
+            $pet->user_id = Auth::id(); // Assign to the property "user_id" the value that contain the "id" of the user that are working
         });
     }
 

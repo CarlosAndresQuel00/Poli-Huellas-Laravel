@@ -24,9 +24,9 @@ class Comment extends Model
         return $this->belongsTo(User::class); // Pending
     }
 
-    public function articl()
+    public function pet()
     {
-        return $this->belongsTo(Articl::class); // Pending
+        return $this->belongsTo(Pet::class); // Pending
     }
 
     use HasFactory;
