@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Pet;
+use App\Models\Form;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PetPolicy
+class FormPolicy
 {
     use HandlesAuthorization;
 
@@ -25,7 +25,7 @@ class PetPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isGranted(User::ROLE_ADOPTER);
+        return $user->isGranted(User::ROLE_PROTECTOR);
     }
 
     /**
@@ -35,9 +35,9 @@ class PetPolicy
      * @param  \App\Models\Pet  $pet
      * @return mixed
      */
-    public function view(User $user, Pet $pet)
+    public function view(User $user, Form $form)
     {
-        return $user->isGranted(User::ROLE_ADOPTER);
+        return $user->isGranted(User::ROLE_PROTECTOR);
     }
 
     /**
@@ -48,54 +48,30 @@ class PetPolicy
      */
     public function create(User $user)
     {
-        return $user->isGranted(User::ROLE_PROTECTOR);
+        return $user->isGranted(User::ROLE_ADOPTER);
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Pet  $pet
+     * @param  \App\Models\Form  $form
      * @return mixed
      */
-    public function update(User $user, Pet $pet)
+    public function update(User $user, Form $form)
     {
-        return $user->isGranted(User::ROLE_PROTECTOR) && $user->id === $pet->user_id;
+        return $user->isGranted(User::ROLE_ADOPTER) && $user->id === $form->user_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Pet  $pet
+     * @param  \App\Models\Form  $form
      * @return mixed
      */
-    public function delete(User $user, Pet $pet)
+    public function delete(User $user, Form $form)
     {
         return $user->isGranted(User::ROLE_ADMIN);
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Pet  $pet
-     * @return mixed
-     */
-    public function restore(User $user, Pet $pet)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Pet  $pet
-     * @return mixed
-     */
-    public function forceDelete(User $user, Pet $pet)
-    {
-        //
     }
 }

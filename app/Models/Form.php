@@ -6,29 +6,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Pet extends Model
+class Form extends Model
 {
     protected $fillable = [
-        'name',
-        'gender',
-        'type',
-        'size',
+        'responsible',
+        'reason',
+        'home',
         'description',
-        'date_of_birth',
-        'image'
+        'diseases',
+        'children',
+        'time',
+        'trip',
+        'new',
+        'animals',
+        'category_id',
     ];
     public static function boot()
     {
         parent::boot();
-        static::creating(function ($pet) {
+        static::creating(function ($form) {
             // Before saving, first extract the "id" and "lo setea"
-            $pet->user_id = Auth::id(); // Assign to the property "user_id" the value that contain the "id" of the user that are working
+            $form->user_id = Auth::id(); // Assign to the property "user_id" the value that contain the "id" of the user that are working
         });
-    }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class); // Pending
     }
 
     public function user()

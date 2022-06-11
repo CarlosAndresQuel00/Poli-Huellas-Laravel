@@ -12,39 +12,38 @@ use Illuminate\Support\Facades\Mail;
 class CommentController extends Controller
 {
     /**
-     * @param Pet $article
+     * @param Pet $pet
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Pet $article)
+    public function index(Pet $pet)
     {
-        $comment = $article->comments;
+        $comment = $pet->comments;
         return response()->json(CommentResource::collection($comment), 200);
     }
 
     /**
-     * @param Pet $article
+     * @param Pet $pet
      * @param Comment $comment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Pet $article, Comment $comment)
+    public function show(Pet $pet, Comment $comment)
     {
-        $comments = $article->comments()->where('id', $comment->id)->firstOrFail();
+        $comments = $pet->comments()->where('id', $comment->id)->firstOrFail();
         return response()->json(new CommentResource($comments), 200);
     }
 
     /**
      * @param Request $request
-     * @param Pet $articl
+     * @param Pet $pet
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, Pet $article)
+    public function store(Request $request, Pet $pet)
     {
         $request->validate([
-            'text' => 'required|string'
+            'text' => 'required|string',
         ]);
-        $comments = $article->comments()->save(new Comment($request->all())); // Comment of article
-        Mail::to($article->user)->send(new NewComment($comments)); // Send email each time to create a new comment
+        $comments = $pet->comments()->save(new Comment($request->all())); // Comment of article
         return response()->json(new CommentResource($comments), 201);
     }
 

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Pet extends JsonResource
+class Form extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,15 +19,18 @@ class Pet extends JsonResource
         return [
             // Show data
             'id' => $this->id,
-            'name' => $this->name,
-            'gender' => $this->gender,
-            'type' => $this->type,
-            'size' => $this->size,
+            'responsible' => $this->responsible,
+            'reason' => $this->reason,
+            'home' => $this->home,
             'description' => $this->description,
-            'date_of_birth' => $this->date_of_birth,
-            'adopted' => $this->adopted,
+            'diseases' => $this->diseases,
+            'children' => $this->children,
+            'time' => $this->time,
+            'trip' => $this->trip,
+            'new' => $this->new,
+            'animals' => $this->animals,
             'user' => '/api/users/' . $this->user_id, // Route already defined, more easy to use on the clients
-            'image' => $this->image,
+            'category' => '/api/categories/' . $this->category_id, // No controller and route for category
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

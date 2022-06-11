@@ -48,7 +48,6 @@ class PetController extends Controller
             'size' => 'in:Pequeño,Mediano,Grande',
             'description' => 'required',
             'date_of_birth' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id', // Field category_id doesn't exist
             'image' => 'required|image|dimensions:min_width=200,min_height=200'
         ];
         $request->validate($rules, self::$messages);
@@ -71,7 +70,6 @@ class PetController extends Controller
             'size' => 'in:Pequeño,Mediano,Grande',
             'description' => 'required',
             'date_of_birth' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id' // Field category_id doesn't exist
         ];
         $request->validate($rules, self::$messages);
         $pet->update($request->all()); // It's updating, directly without looking for in DB

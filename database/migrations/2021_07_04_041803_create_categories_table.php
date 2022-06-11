@@ -20,13 +20,10 @@ class CreateCategoriesTable extends Migration
             $table->timestamps();
         });
         Schema::create('category_user', function (Blueprint $table) {
-            $table->foreignId('category_id')->constrained('categories')->onDelete('restrict');
-            $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
- });
-        Schema::table('pets', function (Blueprint $table) {
-            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('restrict');
- });
+        });
     }
 
     /**
@@ -39,9 +36,6 @@ class CreateCategoriesTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('category_user');
         Schema::dropIfExists('categories');
-        Schema::table('pets', function (Blueprint $table) {
-            $table->dropForeign(['category_id']);
-        });
         Schema::enableForeignKeyConstraints();
     }
 }

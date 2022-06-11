@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +32,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Public routes
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'authenticate']);
+//Route::get('/notify', [UserController::class, 'notify']);
 Route::get('pets', [PetController::class, 'index']);
+Route::get('forms', [FormController::class, 'index']);
 Route::get('categories', [CategoryController::class, 'index']);
 
 Route::post('/forgot-password', function (Request $request) {
@@ -75,14 +78,21 @@ Route::post('/reset-password', function (Request $request) {
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/user/categories', [CategoryController::class, 'categoriesByUser']);
     Route::get('user', [UserController::class, 'getAuthenticatedUser']);
+    //Route::get('/notify', [UserController::class, 'notify']);
     Route::post('logout', [UserController::class, 'logout']);
 
-    // Articles
+    // Pets
     Route::get('pets/{pet}', [PetController::class, 'show']);
     Route::get('pets/{pet}/image', [PetController::class, 'image']);
     Route::post('pets', [PetController::class, 'store']);
     Route::put('pets/{pet}',  [PetController::class, 'update']);
     Route::delete('pets/{pet}', [PetController::class, 'delete']);
+
+    // Forms
+    Route::get('forms/{form}', [FormController::class, 'show']);
+    Route::post('forms', [FormController::class, 'store']);
+    Route::put('forms/{form}',  [FormController::class, 'update']);
+    Route::delete('forms/{form}', [FormController::class, 'delete']);
 
     // Comments
     Route::get('pets/{pet}/comments', [CommentController::class, 'index']);
