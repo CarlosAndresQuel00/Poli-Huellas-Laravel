@@ -26,18 +26,16 @@ class CategoryController extends Controller
         return new CategoryCollection($user->categories);
     }
 
-
-
-//    /**
-//     * Store a newly created resource in storage.
-//     *
-//     * @param  \Illuminate\Http\Request  $request
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function store(Request $request)
-//    {
-//        //
-//    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
 
     /**
      * Display the specified resource.
@@ -50,26 +48,26 @@ class CategoryController extends Controller
         //
     }
 
-//    /**
-//     * Update the specified resource in storage.
-//     *
-//     * @param  \Illuminate\Http\Request  $request
-//     * @param  \App\Category  $category
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function update(Request $request, Category $category)
-//    {
-//        //
-//    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Category $category)
+    {
+        //
+    }
 
-//    /**
-//     * Remove the specified resource from storage.
-//     *
-//     * @param  \App\Category  $category
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function destroy(Category $category)
-//    {
-//        //
-//    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Category $category)
+    {
+        //
+    }
 }

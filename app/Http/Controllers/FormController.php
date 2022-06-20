@@ -51,18 +51,46 @@ class FormController extends Controller
     {
         $this->authorize('create', Form::class);
         $rules = [
-            'responsible' => 'required|string|max:100', 'reason' => 'required', 'home' => 'required|string|max:100', 'description' => 'required', 'diseases' => 'required|boolean', 'children' => 'required|boolean', 'time' => 'required|boolean', 'trip' => 'required|string|max:255', 'new' => 'required|boolean', 'animals' => 'required|boolean', 'category_id' => 'required|exists:categories,id', // Field category_id doesn't exist
+            'responsible' => 'required|string|max:100',
+            'reason' => 'required',
+            'home' => 'required|string|max:100',
+            'description' => 'required',
+            'diseases' => 'required|boolean',
+            'children' => 'required|boolean',
+            'time' => 'required|boolean',
+            'trip' => 'required|string|max:255',
+            'new' => 'required|boolean',
+            'animals' => 'required|boolean',
+            'category_id' => 'required|exists:categories,id', // Field category_id doesn't exist
         ];
         $request->validate($rules, self::$messages);
         $forms = $pet->forms()->save(new Form($request->all())); // New instance with data
         auth()->user()->notify(new FormNotification($forms));
         return response()->json(new FormResource($forms), 201); // New instance
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Pet $pet
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, Pet $pet)
     {
-        $this->authorize('update', Form::class); // instance of that article
+        $this->authorize('update', Form::class);
         $rules = [
-            'responsible' => 'required|string|max:100', 'reason' => 'required', 'home' => 'required|string|max:100', 'description' => 'required', 'diseases' => 'required|boolean', 'children' => 'required|boolean', 'time' => 'required|boolean', 'trip' => 'required|string|max:255', 'new' => 'required|boolean', 'animals' => 'required|boolean', 'category_id' => 'required|exists:categories,id' // Field category_id doesn't exist
+            'responsible' => 'required|string|max:100',
+            'reason' => 'required',
+            'home' => 'required|string|max:100',
+            'description' => 'required',
+            'diseases' => 'required|boolean',
+            'children' => 'required|boolean',
+            'time' => 'required|boolean',
+            'trip' => 'required|string|max:255',
+            'new' => 'required|boolean',
+            'animals' => 'required|boolean',
+            'category_id' => 'required|exists:categories,id' // Field category_id doesn't exist
         ];
         $request->validate($rules, self::$messages);
         $forms = $pet->forms()->update($request->all());
