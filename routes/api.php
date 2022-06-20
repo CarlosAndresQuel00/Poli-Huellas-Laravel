@@ -32,9 +32,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Public routes
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'authenticate']);
-//Route::get('/notify', [UserController::class, 'notify']);
 Route::get('pets', [PetController::class, 'index']);
-Route::get('forms', [FormController::class, 'index']);
 Route::get('categories', [CategoryController::class, 'index']);
 
 Route::post('/forgot-password', function (Request $request) {
@@ -78,7 +76,10 @@ Route::post('/reset-password', function (Request $request) {
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/user/categories', [CategoryController::class, 'categoriesByUser']);
     Route::get('user', [UserController::class, 'getAuthenticatedUser']);
-    //Route::get('/notify', [UserController::class, 'notify']);
+    Route::get('users', [UserController::class, 'index']);
+    Route::get('users/{user}', [UserController::class, 'show']);
+    Route::put('users/{user}', [UserController::class, 'update']);
+    Route::delete('users/{user}', [UserController::class, 'delete']);
     Route::post('logout', [UserController::class, 'logout']);
 
     // Pets
@@ -89,10 +90,11 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::delete('pets/{pet}', [PetController::class, 'delete']);
 
     // Forms
-    Route::get('forms/{form}', [FormController::class, 'show']);
-    Route::post('forms', [FormController::class, 'store']);
-    Route::put('forms/{form}',  [FormController::class, 'update']);
-    Route::delete('forms/{form}', [FormController::class, 'delete']);
+    Route::get('pets/{pet}/forms', [FormController::class, 'index']);
+    Route::get('pets/{pet}/forms/{form}', [FormController::class, 'show']);
+    Route::post('pets/{pet}/forms', [FormController::class, 'store']);
+    Route::put('pets/{pet}/forms/{form}',  [FormController::class, 'update']);
+    Route::delete('pets/{pet}/forms/{form}', [FormController::class, 'delete']);
 
     // Comments
     Route::get('pets/{pet}/comments', [CommentController::class, 'index']);
@@ -100,4 +102,9 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('pets/{pet}/comments', [CommentController::class, 'store']);
     Route::put('pets/{pet}/comments/{comment}',  [CommentController::class, 'update']);
     Route::delete('pets/{pet}/comments/{comment}', [CommentController::class, 'delete']);
+
+    // Notifications
+    Route::get('markAsRead', function() {
+        auth()->user()->unreadNotifications->markAsRead();
+    });
 });

@@ -27,6 +27,7 @@ class CreateFormsTable extends Migration
             $table->boolean('animals');
             $table->enum('state', ['Aceptado', 'Rechazado'])->default('Rechazado');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('pet_id')->constrained("pets")->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });

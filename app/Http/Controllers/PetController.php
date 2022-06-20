@@ -19,11 +19,7 @@ class PetController extends Controller
 
     public function index()
     {
-        //return Pet::all();  // Return all
-        //return ArticleResource::collection(Pet::all()); // Introduce to a new position of the array "Data"
-        //return response()->json(ArticleResource::collection(Pet::all()), 200); // Without introduction to array "Data"
-        //return response()->json(new PetCollection(Pet::all()), 200); // Individually control models collection
-        //$this->authorize('viewAny', Pet::class);
+        $this->authorize('viewAny', Pet::class);
         return new PetCollection(Pet::paginate(5));
     }
 
@@ -32,7 +28,7 @@ class PetController extends Controller
         return response()->download(public_path(Storage::url($pet->image)), $pet->name);
     }
 
-    public function show(Pet $pet) // Relationship with an instance that corresponded from article/model, instead of sending the ID it sends the object
+    public function show(Pet $pet) // Relationship with an instance that corresponded from pet/model, instead of sending the ID it sends the object
     {
         $this->authorize('view', $pet);
         return response()->json(new PetResource($pet), 200);
@@ -51,10 +47,9 @@ class PetController extends Controller
             'image' => 'required|image|dimensions:min_width=200,min_height=200'
         ];
         $request->validate($rules, self::$messages);
-        // Upload file and after save article
+        // Upload file and after save pet
         $pet = new Pet($request->all()); // New instance with data
         $path = $request->image->store('public/pets'); // upload file to server | route -> store method
-        //$path = $request->image->storeAs('public/articles',  $request->user()->id . '_' . $articl->title . '.' . $request->image->extension());
         $pet->image = $path; // Field image
         $pet->save();
         return response()->json(new PetResource($pet), 201); // New instance
@@ -62,9 +57,9 @@ class PetController extends Controller
 
     public function update(Request $request, Pet $pet)
     {
-        $this->authorize('update', $pet); // instance of that article
+        $this->authorize('update', $pet); // instance of that pet
         $rules = [
-            'name' => 'required|string|unique:pets,name,'.$pet->id.'|max:100', // Allow to update our own article|Validation no with the same article to update
+            'name' => 'required|string|unique:pets,name,'.$pet->id.'|max:100', // Allow to update our own pet|Validation no with the same pet to update
             'gender' => 'in:Macho,Hembra',
             'type' => 'in:Perro,Gato,Otros',
             'size' => 'in:Pequeño,Mediano,Grande',

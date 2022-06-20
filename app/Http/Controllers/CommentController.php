@@ -6,6 +6,7 @@ use App\Mail\NewComment;
 use App\Models\Pet;
 use App\Models\Comment;
 use App\Http\Resources\Comment as CommentResource;
+use App\Notifications\NewCommentNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -44,22 +45,19 @@ class CommentController extends Controller
             'text' => 'required|string',
         ]);
         $comments = $pet->comments()->save(new Comment($request->all())); // Comment of article
+        $pet->user->notify(new NewCommentNotification($pet));
         return response()->json(new CommentResource($comments), 201);
     }
 
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, Pet $pet)
     {
-        /*
-        $article->update($request->all()); // It's updating, directly without looking for in DB
-        return response()->json($article, 200);
-        */
+        $pet->comments()->update($request->all()); // It's updating, directly without looking for in DB
+        return response()->json($pet, 200);
     }
 
-    public function delete(Comment $comment)
+    public function delete(Pet $pet)
     {
-        /*
-        $article->delete(); // It's deleting
+        $pet->comments()->delete(); // It's deleting
         return response()->json(null, 204); // Empty content or nothing, all okay.
-        */
     }
 }

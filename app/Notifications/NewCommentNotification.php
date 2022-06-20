@@ -2,26 +2,25 @@
 
 namespace App\Notifications;
 
-use App\Models\Form;
+use App\Models\Pet;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class FormNotification extends Notification
+class NewCommentNotification extends Notification
 {
     use Queueable;
-    public $form;
+
+    public $pet;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($form)
+    public function __construct(Pet $pet)
     {
-        $this->form = $form;
+        $this->pet = $pet;
     }
 
     /**
@@ -44,10 +43,9 @@ class FormNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'type' => 'new_form',
-            'form_id' => $this->form->id,
-            'user_id' => $this->form->user_id,
-            'pet_id' => $this->form->pet_id,
+            'type' => 'new_comment',
+            'pet' => $this->pet,
+            'user' => auth()->user(),
             'time' => Carbon::now()->diffForHumans(),
         ];
     }

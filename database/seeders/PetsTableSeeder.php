@@ -27,7 +27,7 @@ class PetsTableSeeder extends Seeder
             // simular un iniciamossesión con este usuario
             JWTAuth::attempt(['email' => $user->email, 'password' => '12312312']);
             // Y ahora con este usuario creamos algunas mascotas
-            $num_pets = 5; // Create 5 items foreach
+            $num_pets = 1; // Create 1 items foreach
             for ($j = 0; $j < $num_pets; $j++) {
                 Pet::create([
                     'name' => $faker->name,

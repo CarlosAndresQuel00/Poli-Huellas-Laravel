@@ -30,6 +30,7 @@ class Form extends JsonResource
             'new' => $this->new,
             'animals' => $this->animals,
             'user' => '/api/users/' . $this->user_id, // Route already defined, more easy to use on the clients
+            'pet' => '/api/pets/' . $this->pet_id,
             'category' => '/api/categories/' . $this->category_id, // No controller and route for category
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

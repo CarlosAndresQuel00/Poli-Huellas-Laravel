@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Form;
+use App\Models\Pet;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -19,6 +20,7 @@ class FormsTableSeeder extends Seeder
         // Vaciar la tabla articles.
         Form::truncate();
         $faker = \Faker\Factory::create();
+        $pets = Pet::all();
         // Obtenemos la lista de todos los usuarios creados e
         // iteramos sobre cada uno y simulamos un inicio de
         // sesión con cada uno para crear artículos en su nombre
@@ -27,8 +29,7 @@ class FormsTableSeeder extends Seeder
             // simular un iniciamossesión con este usuario
             JWTAuth::attempt(['email' => $user->email, 'password' => '12312312']);
             // Y ahora con este usuario creamos algunos formularios
-            $num_forms = 5; // Create 5 items foreach
-            for ($j = 0; $j < $num_forms; $j++) {
+            foreach ($pets as $pet) {
                 Form::create([
                     'responsible' => $faker->name,
                     'reason' => $faker->paragraph,
@@ -40,6 +41,7 @@ class FormsTableSeeder extends Seeder
                     'trip' => $faker->word,
                     'new' => $faker->boolean,
                     'animals' => $faker->boolean,
+                    'pet_id' => $pet->id,
                     'category_id' => $faker->numberBetween(1, 3), // Set the category to the that belong that article
                 ]);
             }

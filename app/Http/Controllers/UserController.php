@@ -119,6 +119,30 @@ class UserController extends Controller
         return response()->json(new UserResource($user), 200);
     }
 
+    public function index()
+    {
+        return User::all();
+    }
+
+    public function show(User $user)
+    {
+        $this->authorize('view', $user);
+        return $user;
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $user->update($request->all());
+        return response()->json($user, 200);
+    }
+
+    public function delete(User $user)
+    {
+        $this->authorize('delete', $user);
+        $user->delete();
+        return response()->json(null, 204);
+    }
+
     public function logout()
     {
         try {

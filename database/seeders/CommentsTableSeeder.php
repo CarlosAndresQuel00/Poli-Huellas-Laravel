@@ -29,7 +29,7 @@ class CommentsTableSeeder extends Seeder
         foreach ($users as $user) {
             // iniciamos sesión con cada uno
             JWTAuth::attempt(['email' => $user->email, 'password' => '12312312']);
-            // Creamos un comentario para cada artículo con este usuario
+            // Creamos un comentario para cada mascota con este usuario
             foreach ($pets as $pet) {
                 Comment::create([
                     'text' => $faker->paragraph, // Text of the comment (Paragraph)

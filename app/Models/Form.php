@@ -34,5 +34,10 @@ class Form extends Model
     {
         return $this->belongsTo(User::class); // Pending
     }
+
+    public function pet()
+    {
+        return $this->belongsTo(Pet::class); // Pending
+    }
     use HasFactory;
 }

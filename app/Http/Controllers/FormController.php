@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Form as FormResource;
-use App\Http\Resources\FormCollection;
 use App\Models\Form;
+use App\Models\Pet;
 use App\Notifications\FormNotification;
 use Illuminate\Http\Request;
 
@@ -22,9 +22,10 @@ class FormController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Pet $pet)
     {
-        return new FormCollection(Form::paginate(5));
+        $form = $pet->forms;
+        return response()->json(FormResource::collection($form), 200);
     }
 
     /**
@@ -33,10 +34,11 @@ class FormController extends Controller
      * @param  \App\Models\Form  $form
      * @return \Illuminate\Http\Response
      */
-    public function show(Form $form)
+    public function show(Pet $pet, Form $form)
     {
         $this->authorize('view', $form);
-        return response()->json(new FormResource($form), 200);
+        $forms = $pet->forms()->where('id', $form->id)->firstOrFail();
+        return response()->json(new FormResource($forms), 200);
     }
 
     /**
@@ -45,68 +47,39 @@ class FormController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Pet $pet)
     {
         $this->authorize('create', Form::class);
         $rules = [
-            'responsible' => 'required|string|max:100',
-            'reason' => 'required',
-            'home' => 'required|string|max:100',
-            'description' => 'required',
-            'diseases' => 'required|boolean',
-            'children' => 'required|boolean',
-            'time' => 'required|boolean',
-            'trip' => 'required|string|max:255',
-            'new' => 'required|boolean',
-            'animals' => 'required|boolean',
-            'category_id' => 'required|exists:categories,id', // Field category_id doesn't exist
+            'responsible' => 'required|string|max:100', 'reason' => 'required', 'home' => 'required|string|max:100', 'description' => 'required', 'diseases' => 'required|boolean', 'children' => 'required|boolean', 'time' => 'required|boolean', 'trip' => 'required|string|max:255', 'new' => 'required|boolean', 'animals' => 'required|boolean', 'category_id' => 'required|exists:categories,id', // Field category_id doesn't exist
         ];
         $request->validate($rules, self::$messages);
-        // Upload file and after save article
-        $form = new Form($request->all()); // New instance with data
-        $form->save();
-        auth()->user()->notify(new FormNotification($form));
-        return response()->json(new FormResource($form), 201); // New instance
+        $forms = $pet->forms()->save(new Form($request->all())); // New instance with data
+        auth()->user()->notify(new FormNotification($forms));
+        return response()->json(new FormResource($forms), 201); // New instance
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Form  $form
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Form $form)
+    public function update(Request $request, Pet $pet)
     {
-        $this->authorize('update', $form); // instance of that article
+        $this->authorize('update', Form::class); // instance of that article
         $rules = [
-            'responsible' => 'required|string|max:100',
-            'reason' => 'required',
-            'home' => 'required|string|max:100',
-            'description' => 'required',
-            'diseases' => 'required|boolean',
-            'children' => 'required|boolean',
-            'time' => 'required|boolean',
-            'trip' => 'required|string|max:255',
-            'new' => 'required|boolean',
-            'animals' => 'required|boolean',
-            'category_id' => 'required|exists:categories,id' // Field category_id doesn't exist
+            'responsible' => 'required|string|max:100', 'reason' => 'required', 'home' => 'required|string|max:100', 'description' => 'required', 'diseases' => 'required|boolean', 'children' => 'required|boolean', 'time' => 'required|boolean', 'trip' => 'required|string|max:255', 'new' => 'required|boolean', 'animals' => 'required|boolean', 'category_id' => 'required|exists:categories,id' // Field category_id doesn't exist
         ];
         $request->validate($rules, self::$messages);
-        $form->update($request->all()); // It's updating, directly without looking for in DB
-        return response()->json($form, 200);
+        $forms = $pet->forms()->update($request->all());
+        return response()->json($forms, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Form  $form
+     * @param  \App\Models\Pet $pet
      * @return \Illuminate\Http\Response
      */
-    public function delete(Form $form)
+    public function delete(Pet $pet)
     {
-        $this->authorize('delete', $form);
-        $form->delete(); // It's deleting
+        $this->authorize('delete', Form::class);
+        //$form->delete(); // It's deleting
+        $pet->forms()->delete();
         return response()->json(null, 204); // Empty content or nothing, all okay.
     }
 }

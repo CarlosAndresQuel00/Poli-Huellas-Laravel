@@ -31,6 +31,11 @@ class Pet extends Model
         return $this->hasMany(Comment::class); // Pending
     }
 
+    public function forms()
+    {
+        return $this->hasMany(Form::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class); // Pending
