@@ -89,6 +89,12 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::put('pets/{pet}',  [PetController::class, 'update']);
     Route::delete('pets/{pet}', [PetController::class, 'delete']);
 
+    // Categories
+    Route::get('categories/{category}', [PetController::class, 'show']);
+    Route::post('categories', [PetController::class, 'store']);
+    Route::put('categories/{category}',  [PetController::class, 'update']);
+    Route::delete('categories/{category}', [PetController::class, 'delete']);
+
     // Forms
     Route::get('pets/{pet}/forms', [FormController::class, 'index']);
     Route::get('pets/{pet}/forms/{form}', [FormController::class, 'show']);
