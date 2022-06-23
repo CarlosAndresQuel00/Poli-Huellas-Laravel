@@ -19,7 +19,6 @@ class PetController extends Controller
 
     public function index()
     {
-        $this->authorize('view', Pet::class);
         return new PetCollection(Pet::paginate(5));
     }
 
