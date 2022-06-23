@@ -6,16 +6,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Comment extends Model
+class Form extends Model
 {
-    protected $fillable = ['text'];
+    protected $fillable = [
+        'responsible',
+        'reason',
+        'home',
+        'description',
+        'diseases',
+        'children',
+        'time',
+        'trip',
+        'new',
+        'animals',
+        'category_id',
+    ];
     public static function boot()
     {
         parent::boot();
-        // Creating comment
-        static::creating(function ($comment) {
+        static::creating(function ($form) {
             // Before saving, first extract the "id" and "lo setea"
-            $comment->user_id = Auth::id(); // Assign to the property "user_id" the value that contain the "id" of the user that are working
+            $form->user_id = Auth::id(); // Assign to the property "user_id" the value that contain the "id" of the user that are working
         });
     }
 
@@ -28,6 +39,5 @@ class Comment extends Model
     {
         return $this->belongsTo(Pet::class); // Pending
     }
-
     use HasFactory;
 }

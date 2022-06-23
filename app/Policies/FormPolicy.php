@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Articl;
+use App\Models\Form;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ArticlPolicy
+class FormPolicy
 {
     use HandlesAuthorization;
 
@@ -25,19 +25,19 @@ class ArticlPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isGranted(User::ROLE_USER);
+        return $user->isGranted(User::ROLE_PROTECTOR);
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Articl  $articl
+     * @param  \App\Models\Pet  $pet
      * @return mixed
      */
-    public function view(User $user, Articl $articl)
+    public function view(User $user, Form $form)
     {
-        return $user->isGranted(User::ROLE_USER);
+        return $user->isGranted(User::ROLE_PROTECTOR);
     }
 
     /**
@@ -48,54 +48,30 @@ class ArticlPolicy
      */
     public function create(User $user)
     {
-        return $user->isGranted(User::ROLE_USER);
+        return $user->isGranted(User::ROLE_ADOPTER);
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Articl  $articl
+     * @param  \App\Models\Form  $form
      * @return mixed
      */
-    public function update(User $user, Articl $articl)
+    public function update(User $user, Form $form)
     {
-        return $user->isGranted(User::ROLE_USER) && $user->id === $articl->user_id;
+        return $user->isGranted(User::ROLE_ADOPTER) && $user->id === $form->user_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Articl  $articl
+     * @param  \App\Models\Form  $form
      * @return mixed
      */
-    public function delete(User $user, Articl $articl)
+    public function delete(User $user, Form $form)
     {
         return $user->isGranted(User::ROLE_ADMIN);
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Articl  $articl
-     * @return mixed
-     */
-    public function restore(User $user, Articl $articl)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Articl  $articl
-     * @return mixed
-     */
-    public function forceDelete(User $user, Articl $articl)
-    {
-        //
     }
 }

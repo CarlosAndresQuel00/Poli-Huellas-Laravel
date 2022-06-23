@@ -18,7 +18,7 @@ class Comment extends JsonResource
             'id' => $this->id,
             'text' => $this->text,
             'user' => '/api/users/' . $this->user_id,
-            'article' => '/api/articles/' . $this->articl_id,
+            'pet' => '/api/pets/' . $this->pet_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Articl extends JsonResource
+class Form extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,14 +19,19 @@ class Articl extends JsonResource
         return [
             // Show data
             'id' => $this->id,
-            'title' => $this->title,
-            'body' => $this->body,
-            //'user_id' => $this->user_id,
-            //'user' => User::find($this->user_id), // Instance of the object
-            //'category' => Category::find($this->category_id),
+            'responsible' => $this->responsible,
+            'reason' => $this->reason,
+            'home' => $this->home,
+            'description' => $this->description,
+            'diseases' => $this->diseases,
+            'children' => $this->children,
+            'time' => $this->time,
+            'trip' => $this->trip,
+            'new' => $this->new,
+            'animals' => $this->animals,
             'user' => '/api/users/' . $this->user_id, // Route already defined, more easy to use on the clients
+            'pet' => '/api/pets/' . $this->pet_id,
             'category' => '/api/categories/' . $this->category_id, // No controller and route for category
-            'image' => $this->image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

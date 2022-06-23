@@ -18,10 +18,14 @@ class CategoriesTableSeeder extends Seeder
         // Vaciamos la tabla categories
         Category::truncate();
         $faker = \Faker\Factory::create();
-        for ($i = 0; $i < 3; $i++) {
-            Category::create([
-                'name' => $faker->word // Fictional name by the faker
-            ]);
-        }
+        Category::create([
+            'type' => 'dogs'
+        ]);
+        Category::create([
+            'type' => 'cats'
+        ]);
+        Category::create([
+            'type' => 'others'
+        ]);
     }
 }

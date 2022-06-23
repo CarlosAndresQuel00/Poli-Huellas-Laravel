@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Protector;
 use App\Models\User;
-use App\Models\Writer;
+use App\Models\Adopter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -47,28 +48,42 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'cellphone' => 'required|string|max:10',
+            'address' => 'required',
+            'image' => 'required|image|dimensions:min_width=200,min_height=200',
+            'date_of_birth' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'editorial' => 'required|string',
+            'company' => 'required|string',
             'short_bio' => 'required|string',
             'role' => 'required'
         ]);
 
-        if ($request->role == User::ROLE_USER) {
-
-            $userable = Writer::create([
-                'editorial' => $request->get('editorial'),
+        if ($request->role == User::ROLE_PROTECTOR) {
+            $userable = Protector::create([
+                'company' => $request->get('company'),
+                'short_bio' => $request->get('short_bio'),
+            ]);
+        } elseif ($request->role == User::ROLE_ADOPTER) {
+            $userable = Adopter::create([
+                'company' => $request->get('company'),
                 'short_bio' => $request->get('short_bio'),
             ]);
         } else {
             $userable = Admin::create([
-                'credential_number' => $request->get('credential_number'),
+                'identity_card' => $request->get('identity_card'),
             ]);
         }
 
         $user = $userable->user()->create([
             'name' => $request->get('name'),
+            'last_name' => $request->get('last_name'),
+            'cellphone' => $request->get('cellphone'),
+            'address' => $request->get('address'),
+            'image' => $request->get('image'),
+            'date_of_birth' => $request->get('date_of_birth'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),]);
 
@@ -104,6 +119,30 @@ class UserController extends Controller
         return response()->json(new UserResource($user), 200);
     }
 
+    public function index()
+    {
+        return User::all();
+    }
+
+    public function show(User $user)
+    {
+        $this->authorize('view', $user);
+        return $user;
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $user->update($request->all());
+        return response()->json($user, 200);
+    }
+
+    public function delete(User $user)
+    {
+        $this->authorize('delete', $user);
+        $user->delete();
+        return response()->json(null, 204);
+    }
+
     public function logout()
     {
         try {
@@ -130,62 +169,4 @@ class UserController extends Controller
             return response()->json(["message" => "No se pudo cerrar la sesión."], 500);
         }
     }
-    //Actions
-//    public function authenticate(Request $request)
-//    {
-//        $credentials = $request->only('email', 'password');
-//        try {
-//            if (! $token = JWTAuth::attempt($credentials)) {
-//                return response()->json(['error' => 'invalid_credentials'], 400);
-//            }
-//        } catch (JWTException $e) {
-//            return response()->json(['error' => 'could_not_create_token'], 500);
-//        }
-//        return response()->json(compact('token')); //More compact
-//    }
-//
-//    public function register(Request $request)
-//    {
-//        $validator = Validator::make($request->all(), [
-//            'name' => 'required|string|max:255', //Rules
-//            'email' => 'required|string|email|max:255|unique:users',
-//            'password' => 'required|string|min:6|confirmed', //Password and confirm password
-//            'editorial' => 'required|string',
-//            'short_bio' => 'required|string',
-//            'role' => 'required'
-//        ]);
-//        if($validator->fails()){
-//            return response()->json($validator->errors()->toJson(), 400);
-//        }
-//        $writer = Writer::create([
-//            'editorial' => $request->get('editorial'),
-//            'short_bio' => $request->get('short_bio') // Pass from client
-//        ]);
-//        $writer->user()->create([ // Default writer
-//            'name' => $request->get('name'),
-//            'email' => $request->get('email'),
-//            'password' => Hash::make($request->get('password')), //Encrypting
-//        ]);
-//        $user = $writer->user;
-//        //$user_resource = new UserResource($user);
-//        $token = JWTAuth::fromUser($writer->user); // Of user created
-//        //$user_resource->token($token);
-//        return response()->json(new UserResource($user, $token),201);
-//    }
-//
-//    public function getAuthenticatedUser()
-//    {
-//        try {
-//            if (! $user = JWTAuth::parseToken()->authenticate()) {
-//                return response()->json(['user_not_found'], 404);
-//            }
-//        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-//            return response()->json(['token_expired'], $e->getStatusCode());
-//        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-//            return response()->json(['token_invalid'], $e->getStatusCode());
-//        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
-//            return response()->json(['token_absent'], $e->getStatusCode());
-//        }
-//        return response()->json(new UserResource($user), 200); // Instances of users
-//    }
 }

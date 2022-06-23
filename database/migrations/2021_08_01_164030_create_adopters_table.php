@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArticlsTable extends Migration
+class CreateAdoptersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateArticlsTable extends Migration
      */
     public function up()
     {
-        Schema::create('articls', function (Blueprint $table) {
+        Schema::create('adopters', function (Blueprint $table) {
             $table->id();
-            $table->string("title");
-            $table->text("body");
-            $table->timestamps();
+            $table->string('company');
+            $table->text('short_bio');
         });
     }
 
@@ -28,6 +27,6 @@ class CreateArticlsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articls');
+        Schema::dropIfExists('adopters');
     }
 }
