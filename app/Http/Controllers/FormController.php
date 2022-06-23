@@ -24,6 +24,7 @@ class FormController extends Controller
      */
     public function index(Pet $pet)
     {
+        $this->authorize('view', Form::class);
         $form = $pet->forms;
         return response()->json(FormResource::collection($form), 200);
     }
