@@ -121,6 +121,7 @@ class UserController extends Controller
 
     public function index()
     {
+        $this->authorize('view', User::class);
         return User::all();
     }
 
