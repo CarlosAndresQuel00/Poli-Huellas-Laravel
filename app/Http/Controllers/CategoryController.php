@@ -24,7 +24,6 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $this->authorize('view', Category::class);
         return new CategoryCollection(Category::all());
 
     }

@@ -32,6 +32,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Public routes
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'authenticate']);
+Route::get('pets', [PetController::class, 'index']);
+Route::get('categories', [CategoryController::class, 'index']);
 
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
@@ -81,7 +83,6 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('logout', [UserController::class, 'logout']);
 
     // Pets
-    Route::get('pets', [PetController::class, 'index']);
     Route::get('pets/{pet}', [PetController::class, 'show']);
     Route::get('pets/{pet}/image', [PetController::class, 'image']);
     Route::post('pets', [PetController::class, 'store']);
@@ -89,7 +90,6 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::delete('pets/{pet}', [PetController::class, 'delete']);
 
     // Categories
-    Route::get('categories', [CategoryController::class, 'index']);
     Route::get('categories/{category}', [PetController::class, 'show']);
     Route::post('categories', [PetController::class, 'store']);
     Route::put('categories/{category}',  [PetController::class, 'update']);
