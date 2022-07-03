@@ -85,7 +85,7 @@ class UserController extends Controller
             'last_name' => $request->get('last_name'),
             'cellphone' => $request->get('cellphone'),
             'address' => $request->get('address'),
-            'image' => $request->file('image')->storeOnCloudinary('pets')->getSecurePath(),
+            'image' => $request->file('image')->storeOnCloudinary('users')->getSecurePath(),
             'date_of_birth' => $request->get('date_of_birth'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
