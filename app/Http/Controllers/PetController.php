@@ -48,7 +48,9 @@ class PetController extends Controller
         $request->validate($rules, self::$messages);
         // Upload file and after save pet
         $pet = new Pet($request->all()); // New instance with data
-        $path = $request->image->store('public/pets'); // upload file to server | route -> store method
+        //$path = $request->image->store('public/pets'); // upload file to server | route -> store method
+        $file = $request->image->storeOnCloudinary('pets');
+        $path = $file->getSecurePath();
         $pet->image = $path; // Field image
         $pet->save();
         return response()->json(new PetResource($pet), 201); // New instance
@@ -57,15 +59,6 @@ class PetController extends Controller
     public function update(Request $request, Pet $pet)
     {
         $this->authorize('update', $pet); // instance of that pet
-        $rules = [
-            'name' => 'required|string|unique:pets,name,'.$pet->id.'|max:100', // Allow to update our own pet|Validation no with the same pet to update
-            'gender' => 'in:Macho,Hembra',
-            'type' => 'in:Perro,Gato,Otros',
-            'size' => 'in:Pequeño,Mediano,Grande',
-            'description' => 'required',
-            'date_of_birth' => 'required|string|max:255',
-        ];
-        $request->validate($rules, self::$messages);
         $pet->update($request->all()); // It's updating, directly without looking for in DB
         return response()->json($pet, 200);
     }

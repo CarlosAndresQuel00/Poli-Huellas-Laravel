@@ -78,6 +78,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user', [UserController::class, 'getAuthenticatedUser']);
     Route::get('users', [UserController::class, 'index']);
     Route::get('users/{user}', [UserController::class, 'show']);
+    Route::post('users/{user}/image', [UserController::class, 'image']);
     Route::put('users/{user}', [UserController::class, 'update']);
     Route::delete('users/{user}', [UserController::class, 'delete']);
     Route::post('logout', [UserController::class, 'logout']);
