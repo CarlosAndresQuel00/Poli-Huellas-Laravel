@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Protector;
 use App\Models\User;
 use App\Models\Adopter;
+use App\Traits\Controllers\ChangeImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -19,6 +20,8 @@ use Tymon\JWTAuth\JWTGuard;
 
 class UserController extends Controller
 {
+    use ChangeImageTrait;
+
     public function authenticate(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -82,10 +85,12 @@ class UserController extends Controller
             'last_name' => $request->get('last_name'),
             'cellphone' => $request->get('cellphone'),
             'address' => $request->get('address'),
-            'image' => $request->get('image'),
+            'image' => $request->file('image')->storeOnCloudinary('pets')->getSecurePath(),
             'date_of_birth' => $request->get('date_of_birth'),
             'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),]);
+            'password' => Hash::make($request->get('password')),
+            'role' => $request->get('role')
+        ]);
 
         $token = JWTAuth::fromUser($user);
 

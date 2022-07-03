@@ -17,7 +17,7 @@ class AddImageColumnPet extends Migration
             $table->string('image');
         });
         Schema::table('users', function (Blueprint $table) {
-            $table->string('image');
+            $table->string('image')->default('https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png');
         });
     }
 
