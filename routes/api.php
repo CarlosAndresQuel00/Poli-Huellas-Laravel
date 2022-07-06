@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GoogleController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -32,6 +33,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Public routes
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'authenticate']);
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 Route::get('pets', [PetController::class, 'index']);
 Route::get('categories', [CategoryController::class, 'index']);
 
