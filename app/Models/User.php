@@ -25,7 +25,9 @@ class User extends Authenticatable implements JWTSubject
         'date_of_birth',
         'email',
         'password',
-        'role'
+        'role',
+        'external_id',
+        'external_auth'
     ];
     // With auth
     const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
