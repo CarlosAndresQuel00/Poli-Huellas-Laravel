@@ -38,18 +38,7 @@ class GoogleController extends Controller
             if($finduser){
                 Auth::login($finduser);
                 $user = JWTAuth::user();
-                return response()->json(compact('token', 'user'))
-                    ->withCookie(
-                        'token',
-                        $token,
-                        config('jwt.ttl'), // ttl => time to live
-                        '/', // path
-                        null, // domain
-                        config('app.env') !== 'local', // Secure
-                        true, // httpOnly
-                        false, //
-                        config('app.env') !== 'local' ? 'None' : 'Lax' // SameSite
-                    );
+                return back();
             }else{
                 $newUser = Adopter::create([
                     'company' => '',
