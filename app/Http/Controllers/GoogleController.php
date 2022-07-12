@@ -68,18 +68,7 @@ class GoogleController extends Controller
                     'external_auth' => 'google',
                 ]);
                 $token = JWTAuth::fromUser($user);
-                return response()->json(new UserResource($user, $token), 201)
-                    ->withCookie(
-                        'token',
-                        $token,
-                        config('jwt.ttl'),
-                        '/',
-                        null,
-                        config('app.env') !== 'local',
-                        true,
-                        false,
-                        config('app.env') !== 'local' ? 'None' : 'Lax'
-                    );
+                return back();
             }
         } catch (Exception $e) {
             dd($e->getMessage());
