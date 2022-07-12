@@ -38,7 +38,18 @@ class GoogleController extends Controller
             if($finduser){
                 Auth::login($finduser);
                 $user = JWTAuth::user();
-                return back();
+                return back()
+                    ->withCookie(
+                        'token',
+                        $token,
+                        config('jwt.ttl'), // ttl => time to live
+                        '/', // path
+                        null, // domain
+                        config('app.env') !== 'local', // Secure
+                        true, // httpOnly
+                        false, //
+                        config('app.env') !== 'local' ? 'None' : 'Lax' // SameSite
+                    );
             }else{
                 $newUser = Adopter::create([
                     'company' => '',
@@ -57,7 +68,18 @@ class GoogleController extends Controller
                     'external_auth' => 'google',
                 ]);
                 $token = JWTAuth::fromUser($user);
-                return back();
+                return back()
+                    ->withCookie(
+                        'token',
+                        $token,
+                        config('jwt.ttl'),
+                        '/',
+                        null,
+                        config('app.env') !== 'local',
+                        true,
+                        false,
+                        config('app.env') !== 'local' ? 'None' : 'Lax'
+                    );
             }
         } catch (Exception $e) {
             dd($e->getMessage());
